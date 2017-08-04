@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="$javaInterfacePackage$.I$DomainObjectName$DAO">
+<resultMap id="BaseResultMap" type="$javaModelPackage$.$DomainObjectName$">
+$ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+   	    if(i > 0){
+		builder.append('\n');
+	    }
+	    if(col.isPrimaryKey()){
+                builder.append('    <id ');
+            } else {
+                builder.append('    <result ');
+            }
+	    builder.append('column="'+col.getColumnName()+'" jdbcType="'+col.getColumnType()+'" property="'+col.getPropertyName()+'" />');
+        }
+$
+</resultMap>
+<sql id="Base_Column_List">$ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    if(i > 0){
+		builder.append(',');
+	    }
+	    builder.append(col.getColumnName());
+        }
+$</sql>
+<select id="list" parameterType="$javaModelPackage$.$DomainObjectName$" resultMap="BaseResultMap">
+       select
+           <include refid="Base_Column_List" />
+       from $tableName$
+           <trim prefix="WHERE" prefixOverrides="AND | OR">
+$ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    if(i > 0){
+		builder.append('\n');
+	    }
+	    builder.append('               ');
+	    builder.append('<if test="').append(col.getPropertyName()).append(' != null');
+	    builder.append(' ">\n');
+            builder.append('                   ');
+            builder.append('AND ').append(col.getColumnName()).append('=#{').append(col.getPropertyName());
+	    builder.append(', jdbcType='+col.getColumnType()+'}\n');
+	    builder.append('               ');
+	    builder.append('</if>');
+        }
+$
+           </trim>
+</select>
+<select id="getById" resultMap="BaseResultMap">
+       select
+           <include refid="Base_Column_List" />
+       from $tableName$ where $ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    if(col.isPrimaryKey()){
+		if(i > 0){
+			builder.append(' AND ');
+	    	}
+		builder.append(col.getColumnName() + ' = #{' + col.getPropertyName() + ', jdbcType=' + col.getColumnType() + '}');
+            }
+        }
+$
+</select>
+<delete id="deleteById">
+        delete from $tableName$ where $ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    if(col.isPrimaryKey()){
+		if(i > 0){
+			builder.append(' AND ');
+	    	}
+		builder.append(col.getColumnName() + ' = #{' + col.getPropertyName() + ', jdbcType=' + col.getColumnType() + '}');
+            }
+        }
+$
+</delete>
+<insert id="save" parameterType="$javaModelPackage$.$DomainObjectName$" $ScriptEngine
+	if(UseGeneratedKeys){
+		builder.append('useGeneratedKeys="true"').append(' keyProperty="'+keyProperty+'"');
+	}
+$>
+    insert into $tableName$
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+$ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    if(i > 0){
+		builder.append('\n');
+	    }
+	    builder.append('        <if test="'+col.getPropertyName()+' != null">'+col.getColumnName()+', </if>');
+        }
+$
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+$ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    if(i > 0){
+		builder.append('\n');
+	    }
+	    builder.append('        <if test="'+col.getPropertyName()+' != null">#{');
+	    builder.append(col.getPropertyName()).append(', jdbcType=').append(col.getColumnType()).append('},</if>');
+        }
+$
+    </trim>
+</insert>
+<update id="update" parameterType="$javaModelPackage$.$DomainObjectName$">
+    update $tableName$
+    <set>
+$ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    if(!col.isPrimaryKey()){
+	    	builder.append('        <if test="'+col.getPropertyName()+' != null">').append(col.getColumnName()).append('=#{');
+	    	builder.append(col.getPropertyName()).append(', jdbcType=').append(col.getColumnType()).append('},</if>');
+		if(i != columns.size() - 1){
+			builder.append('\n');
+	    	}
+	    }
+        }
+$
+    </set>
+    where $ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    if(col.isPrimaryKey()){
+		if(i > 0){
+			builder.append(' AND ');
+	    	}
+		builder.append(col.getColumnName() + ' = #{' + col.getPropertyName() + ', jdbcType=' + col.getColumnType() + '}');
+            }
+        }
+$
+</update>
+<!-- #marking start (write your code under this, don't change marke line) -->
+$retainedCode$
+<!-- #marking end (when plugin overwrite this file, your code will be remained)-->
+</mapper>

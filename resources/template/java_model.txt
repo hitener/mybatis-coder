@@ -1,0 +1,38 @@
+package $javaModelPackage$;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * Created by Mybatis Coder plugin
+ */
+public class $DomainObjectName$ implements Serializable {
+
+$ScriptEngine
+	for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    if(col.getRemark() != ''){
+	    	builder.append('    /**\n');
+	    	builder.append('     * ').append(col.getRemark()).append('\n');
+	    	builder.append('     */\n');
+	    }
+	    builder.append('    private '+col.getPropertyType()+' '+col.getPropertyName()+';\n');
+        }
+        builder.append('\n');
+	// GET, SET method
+        for(var i = 0; i < columns.size(); i++){
+	    var col = columns.get(i);
+	    builder.append('    public '+col.getPropertyType()+' get'+col.getPropertyMethodName()+'(){\n');
+	    builder.append('        return this.').append(col.getPropertyName());
+            builder.append(';\n    }\n\n');
+	    builder.append('    public void set'+col.getPropertyMethodName()+'('+col.getPropertyType() + ' ' + col.getPropertyName());
+            builder.append('){\n');
+	    builder.append('        this.').append(col.getPropertyName()).append('=').append(col.getPropertyName());
+            builder.append(';\n    }\n\n');
+        }
+$
+  // #marking start (write your code under this, don't change marke line)
+$retainedCode$
+  // #marking end (when plugin overwrite this file, your code will be remained)
+
+}

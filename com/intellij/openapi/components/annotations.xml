@@ -1,0 +1,5 @@
+<root>
+    <item name='com.intellij.openapi.components.PersistentStateComponent'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>

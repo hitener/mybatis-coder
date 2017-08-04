@@ -1,0 +1,44 @@
+<idea-plugin>
+  <id>com.mybatis.coder.plugin.register.id</id>
+  <name>MyBatis Coder</name>
+  <version>1.0</version>
+  <vendor email="501739219@qq.com" url="https://www.zhihu.com/people/chou-da-ma-de-tu-zi/activities">my zhihu personal homepage</vendor>
+
+  <description><![CDATA[
+      help you to generate mybatis code.<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      no changes.<br>
+      <em>no changes for the moment</em>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="145.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+      <projectService serviceImplementation="com.mybatis.coder.ui.PersistentComponent"/>
+      <projectConfigurable id="com.mybatis.coder.plugin.configurable" groupId="tools" displayName="Mybatis Coder" instance="com.mybatis.coder.ui.PluginConfigurable"/>
+  </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <group id="com.mybatis.coder.plugin" text="MyBatis Coder" description="generate mybatis codes">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action id="MyBatisCoder.generate" class="com.mybatis.coder.action.GenerateAction" text="generate or update" description="generate or update code"
+                    icon="PluginIcons.TOOLS"/>
+            <action id="MyBatisCoder.setting" class="com.mybatis.coder.action.SettingAction" text="settings" description="set the configs"
+                    icon="PluginIcons.CONFIG"/>
+        </group>
+    </actions>
+
+</idea-plugin>
