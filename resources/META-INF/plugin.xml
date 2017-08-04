@@ -6,12 +6,12 @@
 
   <description><![CDATA[
       help you to generate mybatis code.<br>
-      <em>most HTML tags may be used</em>
+      <em>note: only support for mysql</em>
     ]]></description>
 
   <change-notes><![CDATA[
       no changes.<br>
-      <em>no changes for the moment</em>
+      <em></em>
     ]]>
   </change-notes>
 
